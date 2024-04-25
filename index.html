@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HỆ THÔNG MINH - NHÓM 6</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="title" content="HỆ THÔNG MINH" />
+    <meta name="description" content="NHÓM 6" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="container mx-auto my-2">
+        <h1 class=" text-center text-3xl font-bold mt-5 mb-5">
+        Hỗ trợ tìm giáo viên hướng dẫn luận văn tốt nghiệp
+        </h1>
+    </div>
+    <div class="flex justify-center">
+        <div class="overflow-hidden mb-5 shadow sm:rounded-md">
+            <div class="bg-white sm:p-10">
+                <div class="grid grid-cols-6 gap-10">
+                    <div class="col-span-6 sm:col-span-12">
+                        <div id="app">
+
+                            <!-- Lĩnh vực -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Lĩnh vực</h4>
+                                <select
+                                    class="mt-1 block w-56 p-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50 sm:text-base"
+                                    v-model="selectedDinhHuong">
+                                    <option value="">Chọn lĩnh vực...</option>
+                                    <option v-for="item in optionLinhVuc" :key="item.id" :value="item.id">
+                                        {{ item.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <!-- Học vấn -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Học vấn</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedTrinhDo" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedTrinhDo" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+                            
+                            <!-- Kinh nghiệm -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Kinh Nghiệm</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedKinhNghiem" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedKinhNghiem" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+
+                            <!-- Độ tuổi -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Độ Tuổi</h4>
+                                <div class="flex items-center mb-2">
+                                    <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600" v-model="isGiaoVienTre">
+                                    <label class="flex items-center ml-2">Giáo viên trẻ</label>  
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedDoTuoi" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedDoTuoi" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+
+                            <!-- Lĩnh vực -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Lĩnh vực</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedLinhVuc" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedLinhVuc" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+
+                            <!-- Hướng nghiên cứu -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Chỉ số nghiên cứu</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedNghienCuu" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedNghienCuu" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+
+                            <!-- Hướng sản phẩm -->
+                            <div class="mb-3">
+                                <h4 class="mb-2 text-lg font-medium text-gray-700">Chỉ số sản phẩm</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                        <input v-model="selectedSanPham" @change="handleSliderChange" type="range" min="0.01" max="1" step="0.01" class="slider text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <input v-model="selectedSanPham" class="ml-5 text-600 border-gray-300 rounded focus:ring-indigo-500" type="number" />
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-md-6 w-full">
+                                <h3 class="text-xl font-bold rounded">Kết quả TOPSIS</h3>
+                                <div v-for="(teacher, index) in topsis" :key="index" class="mb-3">
+                                    <h5>{{ teacher.name }}</h5>
+                                    <div>TOPSIS Score: {{ teacher.topsisScore }}</div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    selectedTrinhDo: 0.15,
+                    selectedDoTuoi: 0.15,
+                    selectedDinhHuong: 0,
+                    selectedLinhVuc: 0.15,
+                    selectedKinhNghiem: 0.15,
+                    selectedNghienCuu: 0.15,
+                    selectedSanPham: 0.10,
+                    isGiaoVienTre: 0,
+                    normalizedMatrix_trinhdo: 0,
+                    normalizedMatrix_kinhnghiem: 0,
+                    normalizedMatrix_dotuoi: 0,
+                    normalizedMatrix_nghiencuu: 0,
+                    normalizedMatrix_sanpham: 0,
+                    normalizedMatrix_linhvuc: 0,
+                    items: [{ 
+                        id: 0,
+                        name: 'Item 1',
+                        value: 0,
+                        topsisScore: 0,
+                        info: {
+                            trinhdo: 0,
+                            kinhnghiem: 0,
+                            dotuoi: 0,
+                            nghiencuu: 0,
+                            sanpham: 0,
+                            linhvuc: [0]
+                        }
+                    }],
+                    optionLinhVuc: []
+                };
+            },
+            methods: {
+                handleSliderChange() {
+                    const weights =[this.selectedTrinhDo, 
+                                    this.selectedKinhNghiem, 
+                                    this.selectedDoTuoi, 
+                                    this.selectedLinhVuc,
+                                    this.selectedNghienCuu,
+                                    this.selectedSanPham
+                                ];
+                    const sumOfWeights = weights.reduce((total, weight) => parseFloat(total) + parseFloat(weight), 0);
+                    console.log(sumOfWeights);
+                    this.selectedTrinhDo    /= sumOfWeights;
+                    this.selectedKinhNghiem /= sumOfWeights;
+                    this.selectedDoTuoi     /= sumOfWeights;
+                    this.selectedLinhVuc    /= sumOfWeights;
+                    this.selectedNghienCuu  /= sumOfWeights;
+                    this.selectedSanPham    /= sumOfWeights;
+                }
+            },
+            computed: {
+                topsis(){
+
+                    const matrix = this.items.map(teacher => [  teacher.info.trinhdo, 
+                                                                teacher.info.kinhnghiem, 
+                                                                this.isGiaoVienTre ? 4 - teacher.info.dotuoi : teacher.info.dotuoi, 
+                                                                teacher.info.linhvuc[this.selectedDinhHuong],
+                                                                teacher.info.nghiencuu, 
+                                                                teacher.info.sanpham, 
+                                                            ]);
+                    const weights =[this.selectedTrinhDo, 
+                                    this.selectedKinhNghiem, 
+                                    this.selectedDoTuoi, 
+                                    this.selectedLinhVuc,
+                                    this.selectedNghienCuu,
+                                    this.selectedSanPham
+                                ];
+                    
+                    const normalizedMatrix = matrix.map(row => row.map((value, index) => value / Math.sqrt(row.reduce((sum, val, idx) => sum + val ** 2 * weights[idx], 0))));
+                    const idealSolution = normalizedMatrix[0].map((_, colIndex) => Math.max(...normalizedMatrix.map(row => row[colIndex])));
+                    const negativeIdealSolution = normalizedMatrix[0].map((_, colIndex) => Math.min(...normalizedMatrix.map(row => row[colIndex])));
+                    const topsisScores = normalizedMatrix.map((row, rowIndex) => {
+                        const idealDist = Math.sqrt(row.reduce((sum, value, colIndex) => sum + (value - idealSolution[colIndex]) ** 2 * weights[colIndex], 0));
+                        const negativeIdealDist = Math.sqrt(row.reduce((sum, value, colIndex) => sum + (value - negativeIdealSolution[colIndex]) ** 2 * weights[colIndex], 0));
+                        return negativeIdealDist / (idealDist + negativeIdealDist);
+                    });
+                    this.items.forEach((teacher, index) => {
+                        teacher.topsisScore = topsisScores[index];
+                        teacher.normalizedMatrix_dotuoi = normalizedMatrix[index][2];
+                    });
+                    return this.items.slice().sort((a, b) => b.topsisScore - a.topsisScore).slice(0, 5);
+                }
+            },
+            mounted() {
+                fetch('data.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.items = data.data;
+                        this.optionLinhVuc = data.linhvuc;
+                    })
+                    .catch(error => {
+                        console.error('Error loading JSON file:', error);
+                    });
+            }
+        });
+
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>
